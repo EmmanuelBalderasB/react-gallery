@@ -1,4 +1,5 @@
-//import Link from "next/link";
+import Link from "next/link";
+import {db} from "../server/db/index"
 
 const mockUrls = [
   "https://utfs.io/f/2a2d38ff-cf35-4c86-aa53-47bf3c661b9c-bk5urz.png",
@@ -12,17 +13,20 @@ const mockImages = mockUrls.map((url, index) => ({
   id: index + 1,
   url
 }));
-export default function HomePage() {
+export default async function HomePage() {
+
+  const posts = await db.query.posts.findMany();
+
   return (
     <main className="">
       <div className="flex flex-wrap gap-4">
-        {[...mockImages, ...mockImages, ...mockImages].map((image) => (
-          <div key={image.id} className="w-48">
+        {posts.map((post) => (<div key={post.id}>{post.name}</div>))}
+        {[...mockImages, ...mockImages, ...mockImages].map((image, index) => (
+          <div key={image.id + "-" + index} className="w-48">
             <img src={image.url} className="" />
           </div>
         ))}
       </div>
-      Hello (gallery in progress)
     </main>
   );
 }
