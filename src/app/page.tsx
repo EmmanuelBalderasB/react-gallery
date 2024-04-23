@@ -1,5 +1,9 @@
-import Link from "next/link";
-import {db} from "../server/db/index"
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @next/next/no-img-element */
+//import Link from "next/link";
+import {db} from "../server/db/index";
+
+export const dynamic = "force-dynamic";
 
 const mockUrls = [
   "https://utfs.io/f/2a2d38ff-cf35-4c86-aa53-47bf3c661b9c-bk5urz.png",
@@ -14,7 +18,6 @@ const mockImages = mockUrls.map((url, index) => ({
   url
 }));
 export default async function HomePage() {
-
   const posts = await db.query.posts.findMany();
 
   return (
@@ -23,7 +26,7 @@ export default async function HomePage() {
         {posts.map((post) => (<div key={post.id}>{post.name}</div>))}
         {[...mockImages, ...mockImages, ...mockImages].map((image, index) => (
           <div key={image.id + "-" + index} className="w-48">
-            <img src={image.url} className="" />
+            <img src={image.url} className="" alt="placeholder" />
           </div>
         ))}
       </div>
